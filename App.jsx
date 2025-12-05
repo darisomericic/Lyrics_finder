@@ -8,29 +8,27 @@ import axios from 'axios'
 
 // komponenter for lista
 const Lyrics = () => { 
-    const [artist, setArtist] = useState('') // komponent for artist
+    const [artist, setArtist] = useState('') // komponent for artist 
     const [sang, setSang] = useState ('') // komponent for sang
     const [lyrics, setLyrics] = useState ('') // komponent for lyrics
 
   
-    function searchLyrics() { // funksjonen for å finne lyrics 
-        if (artist === "" || sang === "") { // løkke for når man skriver artist og sang
-            return; // etter at man han skrevet artist og en sang så returneres lyrics
-        } //else if (artist === sang) { 
-            //alert('Skriv en gyldig sang')
-            //window.location.reload('./App.jsx')
-        //}
-
-        axios.get(`https://api.lyrics.ovh/v1/${artist}/${sang}`) // axios kaller til lyrics 
-        .then(res => { // når responsen kommer
-            setLyrics(res.data.lyrics); // Lyrics settes til data som er hentet fra API
+    function searchLyrics() { 
+        if (!artist || !sang) {
+            alert('Vennligst fyll inn begge felter')
+            return;
+        }
+      
 
 
-       // const showLyrics = setTimeout(function () {
-            //window.clearTimeout(showLyrics)
-           // window.location.reload('./App.jsx')
 
-       // }, 5000)
+        axios.get(`https://lrclib.net/api/get?artist_name=${encodeURIComponent(artist)}&track_name=${encodeURIComponent(sang)}`) // axios kaller til lyrics 
+        .then(response => { // når responsen kommer
+            setLyrics(response.data.plainLyrics); // Lyrics settes til data som er hentet fra API
+        })
+
+        .catch(error => {
+            alert('Feil artist eller sangnavn.')
         });
 
        
@@ -49,7 +47,7 @@ const Lyrics = () => {
             <button type="button" className={style.button} onClick={() => searchLyrics()}>Search</button>
             </form>
            
-            <pre><h1>Lyrics:</h1> {lyrics}</pre>
+            <pre><b>{lyrics}</b></pre>
             </div>
         </section>
     )
