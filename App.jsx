@@ -40,14 +40,16 @@ const Lyrics = () => {
     return (
         <section className={style.container}>
             <div>
-            <h1 className={style.header}><img src={note}/>Find lyrics to your favourite song! <img src={note}/></h1>
+            <h1 className={style.header}>Find lyrics to your favourite song! </h1>
             <form action="">
-            <input type="search" value={artist} onChange={e => setArtist(e.target.value)} className={style.search} placeholder='Enter artist name...' />
-            <input type="search" value={sang} onChange={e => setSang(e.target.value)} className={style.search} placeholder='Enter song name...' />
+            <input type="search" value={artist} onChange={e => setArtist(e.target.value)} className={style.search} placeholder='Enter artist name...' required />
+            <input type="search" value={sang} onChange={e => setSang(e.target.value)} className={style.search} placeholder='Enter song name...' required />
             <button type="button" className={style.button} onClick={() => searchLyrics()}>Search</button>
             </form>
            
-            <pre><b>{lyrics}</b></pre>
+            <pre className={style.lyricsBox}>
+                <b>{lyrics}</b>
+            </pre>
             </div>
         </section>
     )
